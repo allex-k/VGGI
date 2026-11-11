@@ -1,5 +1,4 @@
-# WebGL
+# PA #1
+Twice Oblique Trochoid Cylindroid wire-frame model
 
-Project that accompanies VGGI credit module.
-
-Visit vggi-kpi.blogspot.com for more information
+![screenshot](./screenshots/PA1_screenshot_2.JPG)
