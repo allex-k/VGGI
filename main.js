@@ -4,6 +4,7 @@ let gl;                         // The webgl context.
 let surface;                    // A surface model
 let shProgram;                  // A shader program
 let spaceball;                  // A SimpleRotator object that lets the user rotate the view by mouse.
+let zoomDistance = 10;
 
 // Constructor
 function ShaderProgram(name, program) {
@@ -32,13 +33,13 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
     /* Set the values of the projection transformation */
-    let projection = m4.perspective(Math.PI/4, 1, 2, 16); 
+    let projection = m4.perspective(Math.PI/4, 1, 0.1, 50);
     
     /* Get the view matrix from the SimpleRotator object.*/
     let modelView = spaceball.getViewMatrix();
 
     let rotateToPointZero = m4.axisRotation([0.707,0.707,0], 0.7);
-    let translateToPointZero = m4.translation(0,0,-10);
+    let translateToPointZero = m4.translation(0,0,-zoomDistance);
 
     let matAccum0 = m4.multiply(rotateToPointZero, modelView );
     let matAccum1 = m4.multiply(translateToPointZero, matAccum0 );
@@ -130,6 +131,11 @@ function init() {
     }
 
     spaceball = new TrackballRotator(canvas, draw, 0);
+    canvas.addEventListener("wheel", event => {
+        event.preventDefault();
+        zoomDistance = Math.max(4, Math.min(30, zoomDistance * Math.exp(event.deltaY * 0.001)));
+        draw();
+    }, { passive: false });
 
     draw();
 }
