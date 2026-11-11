@@ -3,8 +3,8 @@ function Model(name) {
     this.name = name;
     this.iVertexBuffer = gl.createBuffer();
     this.count = 0;
-    this.n = 40; // num vertices per polyline
-    this.vertices = CreateSurfaceData(-1, 1, this.n);
+    this.n = 80; // num vertices per polyline
+    this.vertices = CreateSurfaceData(-0.8, 0.8, this.n);
   
     gl.bindBuffer(gl.ARRAY_BUFFER, this.iVertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STREAM_DRAW);
@@ -42,12 +42,12 @@ function CreateSurfaceData(start = -1, end = 1, n = 8)
     }
 
     u = linspace(start, end, n);
-    v = linspace(start, end, n);
+    v = linspace(start*3, end*3, n);
     vertexList = [];
     
     // ==== Twice Oblique Trochoid Cylindroid ====
-    const H = 1, c = 5, alpha = 0.033*pi, phi = 0;
-    const p = 8*pi, theta0 = 0.5;
+    const H = 0, c = 5, alpha = 0.033*pi, phi = 0;
+    const p = 12*pi, theta0 = 0.5;
     const theta = u => p*u + theta0
     const x = (u, v) => c*u + v*(sin(phi) + tg(alpha)*cos(phi)*cos(theta(u)))
     const y = (u, v) => v*tg(alpha)*sin(theta(u))
